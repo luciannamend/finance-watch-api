@@ -1,5 +1,6 @@
 package com.example.financewatchapi.model;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -29,15 +30,15 @@ public class TransactionModel implements Serializable {
     @Column(name = "amount", nullable = false)
     private BigDecimal amount;
 
-    @Column(name = "date", nullable = false)
+    @Column(name = "date")
     private LocalDate date;
 
     @CreationTimestamp
-    @Column(name = "created", nullable = false, updatable = false)
+    @Column(name = "created", nullable = true, updatable = false)
     private LocalDateTime created;
 
     @UpdateTimestamp
-    @Column(name = "updated", nullable = false)
+    @Column(name = "updated", nullable = true)
     private LocalDateTime updated;
 
     public Integer getId() {
