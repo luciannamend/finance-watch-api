@@ -1,6 +1,7 @@
 package com.example.financewatchapi.model;
 
 public enum Type {
-    INCOME,
-    EXPENSE
+    RETURN,
+    EXPENSE,
+    CREDIT_CARD_PAYMENT
 }
