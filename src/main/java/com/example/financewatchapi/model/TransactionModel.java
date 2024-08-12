@@ -1,6 +1,5 @@
 package com.example.financewatchapi.model;
 
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -13,25 +12,31 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "transaction")
 public class TransactionModel implements Serializable {
-    //private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, updatable = false)
     private Integer id;
 
+    @Column(name = "transaction_number")
+    private String transactionNumber;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false)
     private Type type;
 
-    @Column(name = "name", length = 50, nullable = false)
+    @Column(name = "name", length = 250, nullable = false)
     private String name;
 
     @Column(name = "amount", nullable = false)
     private BigDecimal amount;
 
-    @Column(name = "date")
-    private LocalDate date;
+    @Column(name = "transaction_date")
+    private LocalDate transactionDate;
+
+    @Column(name = "post_date")
+    private LocalDate postDate;
 
     @CreationTimestamp
     @Column(name = "created", nullable = true, updatable = false)
@@ -47,6 +52,14 @@ public class TransactionModel implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getTransactionNumber() {
+        return transactionNumber;
+    }
+
+    public void setTransactionNumber(String transactionNumber) {
+        this.transactionNumber = transactionNumber;
     }
 
     public Type getType() {
@@ -73,12 +86,20 @@ public class TransactionModel implements Serializable {
         this.amount = amount;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public LocalDate getTransactionDate() {
+        return transactionDate;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void setTransactionDate(LocalDate transactionDate) {
+        this.transactionDate = transactionDate;
+    }
+
+    public LocalDate getPostDate() {
+        return postDate;
+    }
+
+    public void setPostDate(LocalDate postDate) {
+        this.postDate = postDate;
     }
 
     public LocalDateTime getCreated() {
