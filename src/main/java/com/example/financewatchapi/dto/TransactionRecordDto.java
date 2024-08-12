@@ -7,9 +7,10 @@ import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-public record TransactionRecordDto(@NotBlank String type,
+public record TransactionRecordDto(@NotBlank String transactionNumber,
+                                   @NotNull Type type,
                                    @NotBlank String name,
                                    @NotNull BigDecimal amount,
-                                   @NotNull LocalDate date) {
-
+                                   @NotNull LocalDate transactionDate,
+                                   @NotNull LocalDate postDate) {
 }
