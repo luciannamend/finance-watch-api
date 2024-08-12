@@ -1,4 +1,4 @@
-package com.example.financewatchapi;
+package com.example.financewatchapi.service;
 
 import com.example.financewatchapi.dto.TransactionRecordDto;
 import com.example.financewatchapi.model.TransactionModel;
