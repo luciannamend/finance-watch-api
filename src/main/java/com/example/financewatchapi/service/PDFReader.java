@@ -46,7 +46,6 @@ public class PDFReader {
 
         for (String line : lines) {
             checkToSkipOrAppend(line, entry);
-
             if (isCompleteEntry(entry.toString())) {
                 String transaction = entry.toString();
                 String[] data = transaction.split(SPACE_REGEX);

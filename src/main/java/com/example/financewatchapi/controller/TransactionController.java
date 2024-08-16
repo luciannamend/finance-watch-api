@@ -10,9 +10,11 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -50,6 +52,7 @@ public class TransactionController {
     }
 */
 
+    @Transactional
     @PostMapping("/transactions/upload")
     public ResponseEntity<List<TransactionModel>> saveTransactionFromPDF() throws IOException {
         List<TransactionRecordDto> recordList = null;
@@ -74,7 +77,25 @@ public class TransactionController {
 
             transactionModelList.add(transaction);
         }
+
+        final var startDate = transactionModelList.get(0).getTransactionDate();
+        final var endDate = transactionModelList.get(transactionModelList.size() - 1).getTransactionDate();
+        List<TransactionModel> existingTransaction = transactionRepository.findByTransactionDateBetween(startDate, endDate);
+        if (!existingTransaction.isEmpty()) {
+            System.out.printf("Deleting existing transactions between %s and %s%n", startDate, endDate);
+            transactionRepository.deleteAll(existingTransaction);
+        }
         return ResponseEntity.status(HttpStatus.CREATED).body(transactionRepository.saveAll(transactionModelList));
+    }
+
+    @GetMapping("/transactions/{startDate}/{endDate}")
+    public ResponseEntity<List<TransactionModel>> getTransactionsBetween(
+            @PathVariable(value = "startDate") LocalDate startDate,
+            @PathVariable(value = "endDate") LocalDate endDate){
+
+        List<TransactionModel> transactionModelList = transactionRepository.findByTransactionDateBetween(startDate, endDate);
+
+        return ResponseEntity.status(HttpStatus.OK).body(transactionModelList);
     }
 
     @GetMapping("/transactions")

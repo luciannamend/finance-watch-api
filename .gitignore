@@ -34,3 +34,4 @@ build/
 
 ### Postgresql ###
 .env
+/src/main/resources/variables.env
